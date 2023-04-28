@@ -50,8 +50,8 @@
                 android:maxLines="1"
                 android:inputType="textEmailAddress"
                 />
-
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.button.MaterialButton
             android:layout_width="150dp"
             android:layout_height="60dp"

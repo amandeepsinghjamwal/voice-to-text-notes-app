@@ -22,6 +22,17 @@ class LoginActivity : AppCompatActivity() {
         binding.signupButton.setOnClickListener{
             startActivity(Intent(this,SignupActivity::class.java))
         }
+        binding.resetPassword.setOnClickListener{
+            if(binding.loginEmail.text!!.isNotBlank()){
+                auth.sendPasswordResetEmail(binding.loginEmail.text.toString())
+                Toast.makeText(this,"Reset password mail sent successfully",Toast.LENGTH_SHORT).show()
+                binding.resetPassword.isEnabled=false
+            }
+            else{
+                binding.loginEmail.error="Please enter your email"
+            }
+
+        }
         binding.loginButton.setOnClickListener{
             if(checkInvalidConditions(binding.loginEmail.text.toString(),binding.loginPassword.text.toString())) {
                 auth.signInWithEmailAndPassword(
@@ -34,7 +45,10 @@ class LoginActivity : AppCompatActivity() {
                             getSharedPreferences("mySharedPreference", MODE_PRIVATE)
                         val editor = sharedPreferences.edit()
                         editor.putString("email", binding.loginEmail.text.toString()).apply()
-                        startActivity(Intent(this, MainActivity::class.java))
+                        val intent=Intent(Intent(this, MainActivity::class.java)).apply {
+                            flags= Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                        startActivity(intent)
                     } else {
                         Toast.makeText(
                             this,
