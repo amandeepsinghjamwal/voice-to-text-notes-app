@@ -3,8 +3,11 @@ This Android app uses Google text to speech to convert whatever you said into te
 
 ## Features
 -Personalised Accounts
+
 -Converts whatever you say to text and you can save it as note
+
 -Data is stored in firebase, so no worries of data loss
+
 -Add, Delete, Edit Note features
 
 ## Contribute💙
