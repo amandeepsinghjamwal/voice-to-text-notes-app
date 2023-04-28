@@ -2,7 +2,7 @@
 This Android app uses Google text to speech to convert whatever you said into text and store it in your notes in your personalised account
 
 ## Features
--Personalised Accounts
+-Personalised Accounts (I have used firebase for authentication, used reset password to set password (I'm broke asf to buy blaze account so no OTP verification) but setting password through email helps in achieving authenticity)
 
 -Converts whatever you say to text and you can save it as note
 
