@@ -179,7 +179,6 @@ class MainActivity : AppCompatActivity() {
             binding.noteInput.setText("")
         }
         builder.setNegativeButton("No"){ _, _ ->
-
         }
         builder.show()
     }
