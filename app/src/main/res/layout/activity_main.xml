@@ -52,11 +52,12 @@
         android:id="@+id/recycler_view"
         android:layout_marginTop="10dp"
         />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/text_to_speech"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/mic_icon"
+        android:text="New Note"
+        app:icon="@drawable/mic_icon"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
