@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.util.Log
+import android.view.MenuInflater
 import android.view.View
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -31,12 +33,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private lateinit var myRef:DatabaseReference
     var isUpdating: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val database =
             Firebase.database("https://notes-app-40288-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        binding.menuButton.setOnClickListener{
+            showPopup(binding.menuButton)
+        }
         val re = Regex("[^A-Za-z\\d ]")
         val sharedPreferences: SharedPreferences =
             getSharedPreferences("mySharedPreference", MODE_PRIVATE)
@@ -181,5 +187,34 @@ class MainActivity : AppCompatActivity() {
         builder.setNegativeButton("No"){ _, _ ->
         }
         builder.show()
+    }
+    private fun showPopup(v: View) {
+        val popup = PopupMenu(this, v)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.menu, popup.menu)
+        popup.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId){
+                R.id.log_out-> {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Log Out")
+                    builder.setMessage("Do You Really wish to log out?")
+                    builder.setPositiveButton("yes"){ _, _ ->
+                        val sharedPreferences: SharedPreferences =
+                            getSharedPreferences("mySharedPreference", MODE_PRIVATE)
+                        val editor= sharedPreferences.edit()
+                        editor.clear().apply()
+                        intent= Intent(this,LoginActivity::class.java).apply {
+                            flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        }
+                        startActivity(intent)
+                    }
+                    builder.setNegativeButton("No"){ _, _ ->
+                    }
+                    builder.show()
+                }
+            }
+            true
+        }
+        popup.show()
     }
 }
