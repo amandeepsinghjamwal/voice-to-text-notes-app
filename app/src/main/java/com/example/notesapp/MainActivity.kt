@@ -53,10 +53,12 @@ class MainActivity : AppCompatActivity() {
         val dataList: MutableList<NotesData> = emptyList<NotesData>().toMutableList()
 
         adapter = AdapterClass(this) {
+            binding.textToSpeech.shrink()
             isUpdating = it.key
             showOverlays()
             binding.noteInput.setText(it.value)
             binding.saveButton.setOnClickListener { _ ->
+                binding.textToSpeech.extend()
                 isUpdating = null
                 if (binding.noteInput.text.toString().isEmpty()) {
                     myRef.child("Notes").child(it.key).setValue(" ")
@@ -67,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                 binding.noteInput.setText("")
             }
             binding.cancelButton.setOnClickListener {
+                binding.textToSpeech.extend()
                 isUpdating = null
                 hideOverlays()
                 binding.noteInput.setText("")
@@ -116,6 +119,7 @@ class MainActivity : AppCompatActivity() {
 
                     binding.noteInput.setText(Objects.requireNonNull(res)[0])
                     binding.saveButton.setOnClickListener {
+                        binding.textToSpeech.extend()
                         isUpdating = null
                         if (binding.noteInput.text.toString().isEmpty()) {
                             myRef.child("Notes").child(noteKey).setValue(" ")
@@ -127,13 +131,18 @@ class MainActivity : AppCompatActivity() {
                         binding.noteInput.setText("")
                     }
                     binding.cancelButton.setOnClickListener {
+                        binding.textToSpeech.extend()
                         isUpdating = null
                         hideOverlays()
                         binding.noteInput.setText("")
                     }
                 }
+                else{
+                    binding.textToSpeech.extend()
+                }
             }
         binding.textToSpeech.setOnClickListener {
+            binding.textToSpeech.shrink()
             intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
             intent.putExtra(
                 RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -147,12 +156,14 @@ class MainActivity : AppCompatActivity() {
             try {
                 activityResultLauncher.launch(intent)
             } catch (e: Exception) {
+                binding.textToSpeech.extend()
                 Toast.makeText(this, e.message.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }
         override fun onBackPressed() {
             if(binding.overlay.visibility == View.VISIBLE){
+                binding.textToSpeech.extend()
                 binding.overlay.visibility=View.GONE
                 binding.deleteButton.visibility=View.GONE
                 binding.inputOverlay.visibility=View.GONE
@@ -180,6 +191,7 @@ class MainActivity : AppCompatActivity() {
         builder.setMessage("Do You Really wish to delete this note?")
         builder.setPositiveButton("yes"){ _, _ ->
             myRef.child("Notes").child(key).removeValue()
+            binding.textToSpeech.extend()
             adapter.notifyDataSetChanged()
             hideOverlays()
             binding.noteInput.setText("")
