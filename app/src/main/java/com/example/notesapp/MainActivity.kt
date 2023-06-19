@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val database =
-            Firebase.database("https://notes-app-40288-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            Firebase.database("https://notes-40288-default-rtdb.asia-southeast1.firebasedatabase.app/")
         binding.menuButton.setOnClickListener{
             showPopup(binding.menuButton)
         }
